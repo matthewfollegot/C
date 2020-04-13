@@ -35,14 +35,10 @@ int get_line(void)
     extern char line[];
     int c, i;
 
-    for(i = 0; i < MAXLINE - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {
+    for(i = 0; i < MAXLINE - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
         line[i] = c;
-        printf("%s\n", line);
-    }
-    if (c == '\n') {
-        line[i] = c;
-        ++i;
-    }
+    if (c == '\n')
+        line[i++] = c;
     line[i] = '\0';
 
     return i;
