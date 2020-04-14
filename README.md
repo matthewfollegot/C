@@ -4,7 +4,7 @@
 <details>
     <summary>
 <i>Conflicting types error, previous implicit declaration</i>
-    </summary>
+    </summary><br>
 
 ```
 error: conflicting types for "<function_name>"
@@ -21,7 +21,7 @@ add function declaration to header file (`.h`) extension and include the file
 <details>
     <summary>
 <i>Reusing code in multiple files</i>
-    </summary>
+    </summary><br>
 
 Example: having a script that encrypts <i>some</i> data
 
@@ -41,7 +41,7 @@ gcc -Wall file.c encrpyt.c -o <output-path>
 <details>
     <summary>
 <i>Data Types and Sizes</i>
-    </summary>
+    </summary><br>
 `char`      a single byte (8 bits - therefore up to 255)
 `int`       16 bits if <b>short</b>, 32 if <b>long</b>
 `float`     single-precision floating point
@@ -52,4 +52,25 @@ unsigned char (8 bits) have values between 0 and 2^8 = 255 while signed char (8 
 ``` 
 
 see `<limits.h>` for more details
+</details>
+
+
+<details>
+    <summary>
+<i>Use braces in nested if statements</i>
+    </summary><br>
+
+Example: the indentation in the following code block leads us to believe that the `else` belongs to the first `if`, however, due to the use (or lack) of braces, the compiler will associate the `else` with the inner `if`.
+
+```c
+if (n > 0)
+    for (i = 0; i < n; i++)
+        if (s[i] > 0) {
+            printf("...");
+            return i;
+        }
+else /* WRONG */
+    printf("error -- n is negative\n");
+```
+
 </details>

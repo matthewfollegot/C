@@ -28,7 +28,7 @@ int main()
     printf("after concat: %s\n", nombre); //prints Matthew
 
     printf("%d\n", atoi("12345"));
-    printf("%c\n", lower('D'));
+    printf("%c\n", lower('Z'));
     
     printf("%zu\n", strnlen("matt", 100));
 
@@ -47,10 +47,7 @@ int atoi(char s[])
 
 int lower(int c)
 {
-    if (c >= 'A' && c <= 'Z')
-        return c + 'a' - 'A';
-    else
-        return c;
+    return (c >= 'A' && c <= 'Z') ? c + 'a' - 'A' : c;
 }
 
 /* strconcat: concatenates t to the end of s; s must be long enough */
