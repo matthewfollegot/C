@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 int any(char s1[], char s2[]);
 int atoi(char s[]);
+void expand(char s1[], char s2[]);
+void itoa(int n, char s[]);
 int lower(int c);
+void reverse(char s[]);
 void strconcat(char s[], char t[]);
 void squeeze2(char s1[], char s2[]);
 
@@ -27,22 +31,40 @@ int main()
     strconcat(nombre, "hew");
     printf("after concat: %s\n", nombre); //prints Matthew
 
-    printf("%d\n", atoi("12345"));
+    printf("atoi: %d\n", atoi("   +12345"));
     printf("%c\n", lower('Z'));
     
     printf("%zu\n", strnlen("matt", 100));
 
+    reverse(nombre);
+    printf("Matthew reversed is %s\n", nombre);
+
+    char nums[10];
+    int n = -777;
+    itoa(n, nums);
+    printf("%d to int: %s\n", n, nums);
+
+    char to_expand[] = "a-z";
+    char expanded[100];
+    expand(to_expand, expanded);
+    printf("%s expanded: %s\n", to_expand, expanded);
+
     return 1;
 }
 
-/* converts string of digits into its numerical equivalent */
+/* atoi: converts string of digits to integer; version 2 */
 int atoi(char s[])
 {
-    int i, n;
-    n = 0;
-    for(i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
+    int i, n, sign;
+
+    for (i = 0; isspace(s[i]); i++) /* skip white space */
+        ;
+    sign = (s[i] == '-' ? -1 : 1);
+    if (s[i] == '+' || s[i] == '-') /* skip sign */
+        i++;
+    for(n = 0; s[i] >= '0' && s[i] <= '9'; i++)
         n = 10 * n + (s[i] - '0');
-    return n;
+    return sign * n;
 }
 
 int lower(int c)
@@ -94,4 +116,62 @@ int any(char s1[], char s2[])
         }
     }
     return -1;
+}
+
+/* reverse: reversing a string in-place */
+void reverse(char s[])
+{
+    int c, i, j;
+    for(i = 0, j = strlen(s)-1; i < j; i++, j--) {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c; // could reduce these three assignments to a single line, separated by commas
+    }
+}
+
+/* itoa: converts n to characters in s */
+void itoa(int n, char s[])
+{
+    int i, sign;
+    
+	if ((sign = n) < 0)
+		n = -n;
+	i = 0;
+	do {
+		s[i++] = n % 10 + '0'; /* get next digit */
+	} while ((n /= 10) > 0); /* delete it */
+	if (sign < 0)
+		s[i++] = '-';
+	s[i] = '\0';
+	reverse(s);
+    
+}
+
+/* expand: expands shorhand notations in s1 to the equivalent complete list in s2 (i.e. a-d to abcd) */
+void expand(char s1[], char s2[])
+{
+    int i, j;
+
+    /* if (s1[0] == '-') {
+        char runner;
+        while (runner != stopper)
+            ;
+    } */
+
+    for (i = j = 0; s1[i] != '\0'; i++)
+    {
+        s2[j++] = s1[i];
+        if (s1[i+1] == '-') {
+            ++i;
+            char runner = s1[i-1]+1;
+            while (runner < s1[i+1])
+                s2[j++] = runner++;
+        }
+        
+        s2[j++] = s1[++i];
+    }
+    s2[j] = '\0';
+
+
+
 }
