@@ -10,6 +10,7 @@ int lower(int c);
 void reverse(char s[]);
 void strconcat(char s[], char t[]);
 void squeeze2(char s1[], char s2[]);
+int trim(char s[]);
 
 int main()
 {
@@ -44,10 +45,15 @@ int main()
     itoa(n, nums);
     printf("%d to int: %s\n", n, nums);
 
-    char to_expand[] = "a-z";
+    char to_expand[] = "-m-z0-5";
     char expanded[100];
     expand(to_expand, expanded);
     printf("%s expanded: %s\n", to_expand, expanded);
+
+    char to_trim[] = "hello world  \n \t";
+    printf("string that will be trimmed starts here %s and ends here\n", to_trim);
+    n = trim(to_trim);
+    printf("trim() returned %d and to_trim is now %s\n", n, to_trim);
 
     return 1;
 }
@@ -147,31 +153,33 @@ void itoa(int n, char s[])
     
 }
 
-/* expand: expands shorhand notations in s1 to the equivalent complete list in s2 (i.e. a-d to abcd) */
+/* expand: expands shorthand notations in s1 to the equivalent complete list in s2 (i.e. a-d to abcd) */
 void expand(char s1[], char s2[])
 {
-    int i, j;
+    int i, j, c;
 
-    /* if (s1[0] == '-') {
-        char runner;
-        while (runner != stopper)
-            ;
-    } */
-
-    for (i = j = 0; s1[i] != '\0'; i++)
-    {
-        s2[j++] = s1[i];
-        if (s1[i+1] == '-') {
-            ++i;
-            char runner = s1[i-1]+1;
-            while (runner < s1[i+1])
-                s2[j++] = runner++;
+    i = j = 0;
+    while ((c = s1[i++]) != '\0')
+        if (s1[i] == '-' && s1[i+1] >= c)
+        {
+            i++;
+            while(c < s1[i])
+                s2[j++] = c++;
         }
-        
-        s2[j++] = s1[++i];
-    }
+        else
+            s2[j++] = c;
+
     s2[j] = '\0';
+}
 
+/* trim: remove trailing blanks, tabs, newlines */
+int trim(char s[])
+{
+    int n;
 
-
+    for (n = strlen(s)-1; n >= 0; n--)
+        if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+            break;
+    s[n+1] = '\0';
+    return n;
 }
