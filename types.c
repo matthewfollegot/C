@@ -4,6 +4,7 @@
 
 int any(char s1[], char s2[]);
 int atoi(char s[]);
+double atof(char s[]);
 void expand(char s1[], char s2[]);
 void itoa(int n, char s[]);
 int lower(int c);
@@ -14,7 +15,7 @@ int trim(char s[]);
 
 int main()
 {
-
+    double atof(char []); /* tells the calling routine that atof returns a non-int value */
     char s1[] = "bcdea";
     char s2[] = "efag";
 
@@ -55,24 +56,42 @@ int main()
     n = trim(to_trim);
     printf("trim() returned %d and to_trim is now %s\n", n, to_trim);
 
+    char to_double[] = "-777.777";
+    printf("%s to double: %f\n", to_double, atof(to_double));
+
     return 1;
 }
 
 /* atoi: converts string of digits to integer; version 2 */
 int atoi(char s[])
 {
-    int i, n, sign;
+    double atof(char s[]); /* don't need this, but keeping as an example */
+
+    return (int) atof(s);
+}
+
+/* atof: converts string s to double */
+double atof(char s[])
+{
+    double val, power;
+    int i, sign;
 
     for (i = 0; isspace(s[i]); i++) /* skip white space */
         ;
-    sign = (s[i] == '-' ? -1 : 1);
-    if (s[i] == '+' || s[i] == '-') /* skip sign */
+    sign = (s[i] == '-') ? -1 : 1;
+    if (s[i] == '+' || s[i] == '-')
         i++;
-    for(n = 0; s[i] >= '0' && s[i] <= '9'; i++)
-        n = 10 * n + (s[i] - '0');
-    return sign * n;
+    for (val = 0.0; isdigit(s[i]); i++)
+        val = 10.0 * val + (s[i] - '0');
+    if (s[i] == '.')
+        i++;
+    for (power = 1.0; isdigit(s[i]); i++) {
+        val = 10.0 * val + (s[i] - '0');
+        power *= 10;
+    }
+    return sign * val / power;
 }
-
+    
 int lower(int c)
 {
     return (c >= 'A' && c <= 'Z') ? c + 'a' - 'A' : c;
