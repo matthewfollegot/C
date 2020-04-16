@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 int any(char s1[], char s2[]);
 int atoi(char s[]);
 double atof(char s[]);
 void expand(char s1[], char s2[]);
 void itoa(int n, char s[]);
+void ritoa(int n, char s[]);
 int lower(int c);
 void reverse(char s[]);
 void strconcat(char s[], char t[]);
@@ -42,9 +44,13 @@ int main()
     printf("Matthew reversed is %s\n", nombre);
 
     char nums[10];
+    char rnums[10];
     int n = -777;
+    int rn = -555;
     itoa(n, nums);
-    printf("%d to int: %s\n", n, nums);
+    ritoa(rn, rnums);
+    printf("%d to int using itoa: %s\n", n, nums);
+    printf("%d to int using ritoa: %s\n", rn, rnums);
 
     char to_expand[] = "-m-z0-5";
     char expanded[100];
@@ -170,6 +176,22 @@ void itoa(int n, char s[])
 	s[i] = '\0';
 	reverse(s);
     
+}
+
+/* ritoa: recursive version of itoa */
+void ritoa(int n, char s[])
+{
+    static int i = 0; /* i is static so that it doesn't get reinitialized for every subsequent function call */
+
+    if (n / 10)
+        ritoa(n/10, s);
+    else {
+        if (n < 0)
+            s[i++] = '-';
+    }
+    
+    s[i++] = abs(n) % 10 + '0';
+    s[i] = '\0';
 }
 
 /* expand: expands shorthand notations in s1 to the equivalent complete list in s2 (i.e. a-d to abcd) */
