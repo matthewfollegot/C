@@ -10,8 +10,9 @@ void expand(char s1[], char s2[]);
 void itoa(int n, char s[]);
 void ritoa(int n, char s[]);
 int lower(int c);
-void reverse(char s[]);
+void reverse(char *s);
 void strconcat(char s[], char t[]);
+int strlength(char *s);
 void squeeze2(char s1[], char s2[]);
 int trim(char s[]);
 
@@ -64,6 +65,8 @@ int main()
 
     char to_double[] = "-777.777";
     printf("%s to double: %f\n", to_double, atof(to_double));
+
+    printf("length of string: %d\n", strlength(to_double));
 
     return 1;
 }
@@ -150,13 +153,15 @@ int any(char s1[], char s2[])
 }
 
 /* reverse: reversing a string in-place */
-void reverse(char s[])
+void reverse(char *s)
 {
-    int c, i, j;
-    for(i = 0, j = strlen(s)-1; i < j; i++, j--) {
-        c = s[i];
-        s[i] = s[j];
-        s[j] = c; // could reduce these three assignments to a single line, separated by commas
+    char *p1 = s;
+    char *p2 = s + strlength(s) - 1;
+
+    while (p1 < p2) {
+        char tmp = *p1;
+        *p1++ = *p2;
+        *p2-- = tmp;
     }
 }
 
@@ -218,9 +223,19 @@ int trim(char s[])
 {
     int n;
 
-    for (n = strlen(s)-1; n >= 0; n--)
+    for (n = strlength(s)-1; n >= 0; n--)
         if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
             break;
     s[n+1] = '\0';
     return n;
+}
+
+/* strlength: return length of string s */
+int strlength(char *s)
+{
+    char *p = s;
+    while (*p != '\0')
+        p++;
+
+    return p - s;
 }
