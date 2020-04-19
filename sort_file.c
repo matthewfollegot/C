@@ -87,6 +87,7 @@ void swap(char *v[], int i, int j)
     v[j] = temp;
 }
 
+/* get_line: gets the length of a line using a pointer to an array that has a length of the max line length */
 int get_line(char *s, int lim)
 {
     int c;
