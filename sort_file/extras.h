@@ -1,7 +1,7 @@
 /* strcopy: copies t to s */
 void strcopy(char *s, char *t)
 {
-    while (*s++=*t++);
+    while ((*s++=*t++));
 }
 
 /* strcompare: return -1 if s<t, 0 if s==t, 1 if s>t */
