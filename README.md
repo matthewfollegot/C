@@ -74,3 +74,19 @@ else /* WRONG */
 ```
 
 </details>
+
+<details>
+    <summary>
+<i>Pointers to Functions</i>
+    </summary><br>
+<h4>Simple Examples</h4>
+`int *f();` - f is a function that returns a pointer to an int
+`int (*pf)()` - pf is a <b>pointer</b> to a function that returns an int
+<b>Explanation:</b> `*` is a prefix operator and it has lower precedence than `()`, so parentheses are necessary to force the proper association.
+<h4>More Complex Examples as Function Arguments</h4>
+`int (*comp)(void *, void *)` comp is a pointer to a function that takes two pointers of any type as arguments and returns an int
+Here is how we can use it:
+```quicksort((void**) lineptr, 0, nlines-1, (int (*)(void*,void*))(numeric ? numcmp : strcmp));```
+We can adapt our `quicksort` function to compare numerically or lexicographically, where numeric is 1 if the user specifies to sort numerically, 0 to sort lexicographically.
+We can invoke one of `numcmp` or `strcmp` in `quicksort` like so:
+```if ((*comp)(v[i], v[left]) < 0)```
