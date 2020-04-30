@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <ctype.h>
 
-struct tnode {
+typedef struct tnode *Treeptr;
+
+typedef struct tnode {
     char *word;
     int count;
     struct tnode *left; /* pointers to child tree nodes */
     struct tnode *right; 
-};
+} Treenode;
 
-struct tnode *talloc(void);
 char *str_dup(char *);
 
 /* addtree: add a node with w, at or below p */
